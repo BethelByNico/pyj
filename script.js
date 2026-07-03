@@ -10,7 +10,7 @@
 const CONFIG = {
   // ⚠️ Pegue aquí la URL /exec de su Google Apps Script (ver README).
   // Si se deja vacío, la app funciona 100% local en este dispositivo.
-  API_URL: 'https://script.google.com/macros/s/AKfycbzxhVaidRG1ABH_jFunGSqCbBrHv89WxTm6IS_APQZ-zLgtXDC3A1rBBnOd8MMfRySE0Q/exec',
+  API_URL: 'https://script.google.com/macros/s/AKfycbw_iFzMm3cEAw7hfFokdNgOstSaQPK-jqnyIkOHe3xIYxjDWf4TCm62NRCMm56fg45T/exec',
   PASSWORD: '185463',
   USERS: ['Julieth', 'Felipe'],
   ANT_THRESHOLD: 20000,          // umbral "gasto hormiga" (COP)
