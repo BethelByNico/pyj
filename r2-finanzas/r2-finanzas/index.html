@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es-CO">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no" />
+  <title>R2 Finanzas</title>
+  <meta name="description" content="Centro de administración financiera familiar de Julieth y Felipe." />
+
+  <!-- PWA / iOS -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0b1020" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#f4f5fb" media="(prefers-color-scheme: light)" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="R2 Finanzas" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <link rel="icon" href="icons/favicon.png" />
+
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Chart.js (MIT, gratuito) para gráficos interactivos -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+</head>
+<body data-theme="dark">
+
+  <!-- ============ PANTALLA DE ACCESO ============ -->
+  <div id="login" class="login" hidden>
+    <div class="login-aurora" aria-hidden="true"></div>
+    <div class="login-card glass">
+      <div class="brand-mark">R2</div>
+      <h1 class="login-title">R2 Finanzas</h1>
+      <p class="login-sub">Centro financiero de Julieth &amp; Felipe</p>
+      <form id="loginForm" autocomplete="off">
+        <label class="field">
+          <span class="field-label">Contraseña</span>
+          <input id="pin" type="password" inputmode="numeric" pattern="[0-9]*"
+                 placeholder="••••••" class="pin-input" autocomplete="current-password" />
+        </label>
+        <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+        <p id="loginError" class="login-error" hidden>Contraseña incorrecta.</p>
+      </form>
+      <p class="login-foot">La sesión permanecerá iniciada en este dispositivo.</p>
+    </div>
+  </div>
+
+  <!-- ============ APLICACIÓN ============ -->
+  <div id="app" class="app" hidden>
+
+    <!-- Barra superior -->
+    <header class="topbar glass">
+      <button class="brand" id="homeBtn" aria-label="Inicio">
+        <span class="brand-dot">R2</span>
+        <span class="brand-name">Finanzas</span>
+      </button>
+
+      <div class="scope-switch" id="scopeSwitch" role="tablist" aria-label="Vista">
+        <button class="scope-btn is-active" data-scope="familia">Familia</button>
+        <button class="scope-btn" data-scope="Julieth">Julieth</button>
+        <button class="scope-btn" data-scope="Felipe">Felipe</button>
+      </div>
+
+      <div class="topbar-actions">
+        <button class="icon-btn" id="searchBtn" aria-label="Buscar">
+          <svg viewBox="0 0 24 24" class="ic"><path d="M11 4a7 7 0 1 0 4.2 12.6l4.1 4.1 1.4-1.4-4.1-4.1A7 7 0 0 0 11 4Zm0 2a5 5 0 1 1 0 10 5 5 0 0 1 0-10Z"/></svg>
+        </button>
+        <button class="icon-btn" id="themeBtn" aria-label="Cambiar tema">
+          <svg viewBox="0 0 24 24" class="ic"><path d="M12 3a9 9 0 1 0 9 9c0-.5 0-.9-.1-1.4A6 6 0 0 1 12 3Z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Estado de sincronización -->
+    <div id="syncBar" class="sync-bar" hidden></div>
+
+    <!-- Contenido -->
+    <main id="view" class="view" aria-live="polite"></main>
+
+    <!-- Botón flotante de registro rápido -->
+    <button id="fab" class="fab" aria-label="Registro rápido">
+      <svg viewBox="0 0 24 24" class="ic"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg>
+    </button>
+
+    <!-- Navegación inferior (estilo iOS) -->
+    <nav class="tabbar glass" aria-label="Secciones">
+      <button class="tab is-active" data-route="inicio">
+        <svg viewBox="0 0 24 24" class="ic"><path d="M12 3 3 10v11h6v-6h6v6h6V10z"/></svg>
+        <span>Inicio</span>
+      </button>
+      <button class="tab" data-route="cuentas">
+        <svg viewBox="0 0 24 24" class="ic"><path d="M3 6h18v4H3zm0 6h18v6H3zm3 2v2h4v-2z"/></svg>
+        <span>Cuentas</span>
+      </button>
+      <span class="tab-spacer" aria-hidden="true"></span>
+      <button class="tab" data-route="servicios">
+        <svg viewBox="0 0 24 24" class="ic"><path d="M4 4h16v3H4zm0 5h16v3H4zm0 5h10v3H4z"/></svg>
+        <span>Pagos</span>
+      </button>
+      <button class="tab" data-route="analisis">
+        <svg viewBox="0 0 24 24" class="ic"><path d="M4 20V4h2v14h14v2zm4-4 3-4 3 3 4-6 2 1.4-5.6 8.6L11 14l-3 4z"/></svg>
+        <span>Análisis</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- Hosts para modales, hojas y notificaciones -->
+  <div id="sheetHost"></div>
+  <div id="modalHost"></div>
+  <div id="toastHost" class="toast-host" aria-live="assertive"></div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
