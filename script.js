@@ -10,7 +10,7 @@
 const CONFIG = {
   // ⚠️ Pegue aquí la URL /exec de su Google Apps Script (ver README).
   // Si se deja vacío, la app funciona 100% local en este dispositivo.
-  API_URL: 'https://script.google.com/macros/s/AKfycbw_iFzMm3cEAw7hfFokdNgOstSaQPK-jqnyIkOHe3xIYxjDWf4TCm62NRCMm56fg45T/exec',
+  API_URL: 'https://script.google.com/macros/s/AKfycbzxhVaidRG1ABH_jFunGSqCbBrHv89WxTm6IS_APQZ-zLgtXDC3A1rBBnOd8MMfRySE0Q/exec',
   PASSWORD: '185463',
   USERS: ['Julieth', 'Felipe'],
   ANT_THRESHOLD: 20000,          // umbral "gasto hormiga" (COP)
@@ -167,7 +167,15 @@ function deleteRecord(sheet, id) {
 const $  = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
 const COP = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 });
-const num = v => { const n = Number(String(v == null ? '' : v).replace(/[^0-9.-]/g, '')); return isFinite(n) ? n : 0; };
+const num = v => {
+  if (typeof v === 'number') return isFinite(v) ? v : 0;               // valores calculados/numéricos
+  const s = String(v == null ? '' : v);
+  const neg = /-/.test(s.replace(/[^\d-]/g, '').charAt(0));            // signo negativo al inicio
+  const digits = s.replace(/[^\d]/g, '');                              // solo dígitos (ignora $ . , espacios)
+  if (!digits) return 0;
+  const n = Number(digits);
+  return isFinite(n) ? (neg ? -n : n) : 0;
+};
 const money = n => COP.format(Math.round(num(n)));
 const moneyK = n => { n = num(n); const a = Math.abs(n); if (a >= 1e6) return (n/1e6).toFixed(a>=1e7?0:1)+'M'; if (a >= 1e3) return Math.round(n/1e3)+'k'; return String(Math.round(n)); };
 const genId = () => 'id' + Date.now().toString(36) + Math.floor(Math.random()*1e6).toString(36);
@@ -1109,7 +1117,7 @@ function openMeta() {
       </div>
       <label class="field"><span class="field-label">Fecha estimada</span><input type="date" name="fecha" /></label>
       <button class="btn btn-primary btn-block" type="submit">Crear meta</button>
-    </form>`);
+    </form>`, { onMount: mountAmount });
 }
 
 function openAjuste() {
